@@ -1,0 +1,74 @@
+extends layouts/_layout.pug
+
+block variables
+	- var activePage = 'data-table'
+	- var activeGroup = 'tables'
+
+block title
+	title Data Table - Vali Admin
+
+block content
+	.app-title
+		div
+			h1
+				i.fa.fa-th-list
+				|  Data Table
+			p Table to display analytical data effectively
+
+		ul.app-breadcrumb.breadcrumb.side
+			li.breadcrumb-item
+				i.fa.fa-home.fa-lg
+			li.breadcrumb-item
+				| Tables
+			li.breadcrumb-item.active
+				a(href="#") Data Table
+
+	.row
+		.col-md-12
+			.tile
+				.tile-body
+					table.table.table-hover.table-bordered#sampleTable
+						thead
+							tr
+								th Name
+								th Position
+								th Office
+								th Age
+								th Start date
+								th Salary
+						tbody
+							tr
+								td Tiger Nixon
+								td System Architect
+								td Edinburgh
+								td 61
+								td 2011/04/25
+								td $320,800
+							tr
+								td Garrett Winters
+								td Accountant
+								td Tokyo
+								td 63
+								td 2011/07/25
+								td $170,750
+							tr
+								td Ashton Cox
+								td Junior Technical Author
+								td San Francisco
+								td 66
+								td 2009/01/12
+								td $86,000
+							tr
+								td Cedric Kelly
+								td Senior Javascript Developer
+								td Edinburgh
+								td 22
+								td 2012/03/29
+								td $433,060
+
+block specific-js
+	// Data table plugin
+	script(type='text/javascript', src="js/plugins/jquery.dataTables.min.js")
+	script(type='text/javascript', src="js/plugins/dataTables.bootstrap.min.js")
+	script(type='text/javascript').
+		$('#sampleTable').DataTable();

@@ -1,0 +1,125 @@
+extends layouts/_layout.pug
+
+block variables
+	- var activePage = 'blank-page'
+	- var activeGroup = 'pages'
+
+block title
+	title Blank Page - Vali Admin
+
+block content
+	.app-title
+		div
+			h1
+				i.fa.fa-dashboard
+				|  HR DASH
+
+
+		ul.app-breadcrumb.breadcrumb
+			li.breadcrumb-item
+				i.fa.fa-home.fa-lg
+			li.breadcrumb-item
+				a(href='#') Blank Page
+
+	.row
+		.col-md-12
+			.tile
+				.tile-body 
+					.bs-component
+						ul.nav.nav-tabs
+							li.nav-item
+								a.nav-link.active(data-toggle='tab', href='#role') Профессии
+							li.nav-item
+								a.nav-link(data-toggle='tab', href='#users') Сотрудники
+							//- li.nav-item
+							//- 	a.nav-link.disabled(href='#') Disabled
+							//- li.nav-item.dropdown
+							//- 	a.nav-link.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Dropdown
+							//- 	.dropdown-menu
+							//- 		a.dropdown-item(href='#') Action
+							//- 		a.dropdown-item(href='#') Another action
+							//- 		a.dropdown-item(href='#') Something else here
+							//- 		.dropdown-divider
+							//- 		a.dropdown-item(href='#') Separated link
+						#myTabContent.tab-content
+							#role.tab-pane.fade.active.show
+								.row
+									.col-md-12
+										.tile
+											.tile-body
+												table.table.table-hover.table-bordered#roleTable
+													thead
+														tr
+															th Должность
+															th Количество сотрудников
+															th Вероятность сокращения
+															th Востребованность
+													tbody
+														if(roles)
+															each role in roles
+																tr
+																	td 
+																		a(href="/role?id="+role.id) #{role.name}
+																	td #{role.factSlots}
+																	td #{role.leave}
+																		if (role.leave < 30) 
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-success(role='progressbar', aria-valuenow=role.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+role.leave+'%')
+																		if (role.leave > 30 && role.leave < 60)
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-warning(role='progressbar', aria-valuenow=role.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+role.leave+'%')
+																		if (role.leave > 60)
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-danger(role='progressbar', aria-valuenow=role.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+role.leave+'%')
+																	- var needs = role.maxSlots - role.factSlots 
+																	td #{needs}
+							#users.tab-pane.fade
+								.row
+									.col-md-12
+										.tile
+											.tile-body
+												table.table.table-hover.table-bordered#userTable
+													thead
+														tr
+															th Имя
+															th Должность
+															th Вероятность увольнения
+															th Стаж
+													tbody
+														if(roles)
+															each user in users
+																tr
+																	td 
+																		a(href="/user?id="+user.id) #{user.userName}
+																	td #{user.roleName}
+																	td #{user.leave}
+																		if (user.leave < 30) 
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-success(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
+																		if (user.leave > 30 && user.leave < 60)
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-warning(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
+																		if (user.leave > 60)
+																			.bs-component
+																				.progress.mb-2
+																					.progress-bar.progress-bar-striped.progress-bar-animated.bg-danger(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
+																	td #{user.experiense}							
+							#dropdown1.tab-pane.fade
+								p
+									| Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.
+							#dropdown2.tab-pane.fade
+								p
+									| Trust fund seitan lette
+
+block specific-js
+	// Data table plugin
+	script(type='text/javascript', src="js/plugins/jquery.dataTables.min.js")
+	script(type='text/javascript', src="js/plugins/dataTables.bootstrap.min.js")
+	script(type='text/javascript').
+		$('#userTable').DataTable();
+		$('#roleTable').DataTable();
