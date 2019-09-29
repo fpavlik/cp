@@ -39,7 +39,6 @@ block content
                 div.info
                     h4 Стаж
                     p
-                    - var free = role.maxSlots - role.factSlots
                         b #{user.experience}
 
         .col-md-3
@@ -48,8 +47,7 @@ block content
                 div.info
                     h4 Должность
                     p
-                    - var free = role.maxSlots - role.factSlots
-                        b #{user.role}
+                        b #{user.roleName}
 
     .row
         .col-md-12
@@ -92,36 +90,24 @@ block content
                                                                     td 
                                                                         a(href="/course?id="+skill.link) #{skill.courseName}
                             #suggest.tab-pane.fade
-                                .row
-                                    .col-md-12
-                                        .tile
-                                            .tile-body
-                                                table.table.table-hover.table-bordered#userTable
-                                                    thead
-                                                        tr
-                                                            th Имя
-                                                            th Вероятность увольнения
-                                                            th Стаж
-                                                    tbody
-                                                        if(users)
-                                                            each user in users
-                                                                tr
-                                                                    td 
-                                                                        a(href="/user?id="+user.id) #{user.name}
-                                                                    td #{user.leave}
-                                                                        if (user.leave < 30) 
-                                                                            .bs-component
-                                                                                .progress.mb-2
-                                                                                    .progress-bar.progress-bar-striped.progress-bar-animated.bg-success(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
-                                                                        if (user.leave > 30 && user.leave < 60)
-                                                                            .bs-component
-                                                                                .progress.mb-2
-                                                                                    .progress-bar.progress-bar-striped.progress-bar-animated.bg-warning(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
-                                                                        if (user.leave > 60)
-                                                                            .bs-component
-                                                                                .progress.mb-2
-                                                                                    .progress-bar.progress-bar-striped.progress-bar-animated.bg-danger(role='progressbar', aria-valuenow=user.leave, aria-valuemin='0', aria-valuemax='100', style='width: '+user.leave+'%')
-                                                                    td #{user.experiense}							
+                                .bs-component
+                                    if(suggest)
+                                        each sugg in suggest
+                                            .card.mb-3.text-white.bg-primary
+                                                .card-body
+                                                    blockquote.card-blockquote
+                                                        .h3 #{sugg.name}
+                                                        if (!sugg.status)
+                                                            p Сотрудник еще не дал ответа
+                                                        else if (sugg.status == 'true')
+                                                            p Сотрудник согласился на пердложенную вакансию
+                                                        else if (sugg.status == 'false')
+                                                            p Сотрудник отказался от предложенной вакансии
+                                                        p Необходимые навыки:
+                                                        h3 #{sugg.skills}
+                                                            if (sugg.skills)
+                                                                each skill in sugg.skills
+                                                                    p #{skill.name} #{skill.caption}
                             #dropdown1.tab-pane.fade
                                 p
                                     | Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.
@@ -134,7 +120,6 @@ block specific-js
     script(type='text/javascript', src="js/plugins/jquery.dataTables.min.js")
     script(type='text/javascript', src="js/plugins/dataTables.bootstrap.min.js")
     script(type='text/javascript').
-        $('#userTable').DataTable();
         $('#skillTable').DataTable();
 
 

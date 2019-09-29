@@ -100,6 +100,48 @@ class Roles {
         });
     }
 
+    static getUserById(userId) {
+        var con = require('./Connect');
+
+        var sql ="SELECT users.id, users.name, users.leave, roles.name as roleName FROM users \
+        INNER JOIN roles ON users.role = roles.id \
+        WHERE users.id = "+con.escape(userId)+";";
+        return new Promise((resolve, reject) => {
+            con.query(sql, (err, result) => {
+                if(err) reject(err)
+                resolve(result);
+            });
+        });
+    }
+
+    static getSkillsByUser(userId) {
+        var con = require('./Connect');
+
+        var sql = "SELECT * FROM skills \
+        INNER JOIN skillsUsers on skills.id = skillsUsers.skillId \
+        WHERE skillsUsers.userId = "+ con.escape(userId);
+        return new Promise((resolve, reject) => {
+            con.query(sql, (err, result) => {
+                if(err) reject(err)
+                resolve(result);
+            });
+        });
+    }
+
+    static getSuggestRolesById(userId) {
+        var con = require('./Connect');
+
+        var sql = "SELECT roles.name, suggestRoles.status, roles.id as roleId FROM roles \
+        INNER JOIN suggestRoles ON suggestRoles.roleId = roles.id \
+        WHERE suggestRoles.userId = "+con.escape(userId)+";";
+        return new Promise((resolve, reject) => {
+            con.query(sql, (err, result) => {
+                if(err) reject(err)
+                resolve(result);
+            });
+        });
+    }
+
 
 }
 
