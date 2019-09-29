@@ -25,13 +25,6 @@ block content
 
 
     .row
-        .col-md-3
-            .widget-small.primary
-                i.icon.fa.fa-users.fa-3x
-                div.info
-                    h4 Вероятность увольнения
-                    p
-                        b #{user.leave}
 
         .col-md-3
             .widget-small.info
@@ -78,7 +71,7 @@ block content
                                                 table.table.table-hover.table-bordered#skillTable
                                                     thead
                                                         tr
-                                                            th Навыки сотрудника
+                                                            th Ваши навыки
                                                             th Описание
                                                             th Курс
                                                     tbody
@@ -96,18 +89,19 @@ block content
                                             .card.mb-3.text-white.bg-primary
                                                 .card-body
                                                     blockquote.card-blockquote
-                                                        .h3 #{sugg.name}
-                                                        if (!sugg.status)
-                                                            p Сотрудник еще не дал ответа
-                                                        else if (sugg.status == 'true')
-                                                            p Сотрудник согласился на пердложенную вакансию
-                                                        else if (sugg.status == 'false')
-                                                            p Сотрудник отказался от предложенной вакансии
-                                                        .h4 Необходимые навыки:
-                                                        if (sugg.skills)
-                                                            each skill in sugg.skills
-                                                                p #{skill.name} #{skill.caption}
-                                                                hr
+                                                        .row
+                                                            .col-6
+                                                                .h3 #{sugg.name}
+                                                                .h4 Необходимые навыки:
+                                                                if (sugg.skills)
+                                                                    each skill in sugg.skills
+                                                                        p #{skill.name} #{skill.caption}
+                                                                        hr
+                                                            .col-6
+                                                                .h5
+                                                                    a(href="/suggest?role="+sugg.roleId+"&answer=true&user="+user.id style="color: white;") Интересует
+                                                                .h5
+                                                                    a(href="/suggest?role="+sugg.roleId+"&answer=false&user="+user.id style="color: white;") Не нтересует
                             #dropdown1.tab-pane.fade
                                 p
                                     | Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.

@@ -1,4 +1,4 @@
-function user(req, res, next) {
+function userDash(req, res, next) {
     var Role = require('../helpers/ClassRoles');
     var output = {};
 
@@ -70,7 +70,7 @@ function user(req, res, next) {
                         for (let k = 0; k < skill.length; k++) {
                             const el = skill[k];
                             if (el.roleId == sugg.roleId) {
-          
+
                                 output.suggest[i].skills.push(skill[k])
                             }
 
@@ -80,8 +80,7 @@ function user(req, res, next) {
 
             }
 
-            console.log("TCL: user -> output.suggest", output.suggest[1])
-            res.render('user', {
+            res.render('userDash', {
                 user: output.user,
                 skills: output.skills,
                 suggest: output.suggest
@@ -97,4 +96,4 @@ function user(req, res, next) {
 }
 
 
-module.exports = user;
+module.exports = userDash;

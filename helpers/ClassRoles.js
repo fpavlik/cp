@@ -76,7 +76,7 @@ class Roles {
 
     static getSkillsByRole(roleId) {
         var con = require('./Connect');
-        var sql = "SELECT * FROM skills INNER JOIN roleSkills ON roleSkills.skillId = skills.id WHERE roleSkills.roleId = "+ con.escape(roleId)+";";
+        var sql = "SELECT skills.name, skills.caption, skills.id, roleSkills.roleId FROM skills INNER JOIN roleSkills ON roleSkills.skillId = skills.id WHERE roleSkills.roleId = "+ con.escape(roleId)+";";
         return new Promise((resolve, reject) => {
             con.query(sql, (err, result) => {
                 if(err) reject(err)
@@ -134,6 +134,18 @@ class Roles {
         var sql = "SELECT roles.name, suggestRoles.status, roles.id as roleId FROM roles \
         INNER JOIN suggestRoles ON suggestRoles.roleId = roles.id \
         WHERE suggestRoles.userId = "+con.escape(userId)+";";
+        return new Promise((resolve, reject) => {
+            con.query(sql, (err, result) => {
+                if(err) reject(err)
+                resolve(result);
+            });
+        });
+    }
+
+    static setAnswer(userId, roleId, answer) {
+        var con = require('./Connect');
+
+        var sql = "UPDATE suggestRoles SET status = "+con.escape(answer) + " WHERE userId = "+con.escape(userId)+" AND roleId = "+ con.escape(roleId) +";";
         return new Promise((resolve, reject) => {
             con.query(sql, (err, result) => {
                 if(err) reject(err)
